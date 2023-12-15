@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 // Import your screens
 import HomeScreen from './src/screens/HomeScreen'; 
 import ArtDetailScreen from './src/screens/ArtDetailScreen';
+import ArtDetailScreen_2 from './src/screens/ArtDetailScreen_2';
 
 
 
@@ -16,13 +17,15 @@ const App = () => {
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="ArtDetail"
+          initialRouteName="ArtDetail_2"
           screenOptions={{
             headerShown: false
           }}
         >
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="ArtDetail" component={ArtDetailScreen} /> 
+          <Stack.Screen name="ArtDetail_2" component={ArtDetailScreen_2} /> 
+
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
