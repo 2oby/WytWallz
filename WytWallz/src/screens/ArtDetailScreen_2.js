@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { ImageBackground, Dimensions, StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Font from 'expo-font';
+import { fetchArtworkData } from '../services/api';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const ArtDetailScreen = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [artwork, setArtwork] = useState(null);
 
   useEffect(() => {
     async function loadFonts() {
@@ -20,16 +22,26 @@ const ArtDetailScreen = () => {
     loadFonts();
   }, []);
 
+  useEffect(() => {
+    const artworkKey = 'SP3FBR2AGK5H9QDNAHM7FF9K6E2B7DTE5ACFA7FWY.12345'; //Format: Smart-Contract-Address.Token-ID
+    
+    fetchArtworkData(artworkKey)
+      .then(data => {
+        setArtwork(data);
+      })
+      .catch(error => {
+        console.error('Error fetching artwork:', error);
+        // Handle the error appropriately
+      });
+  }, []);
+
   if (!fontsLoaded) {
     return <View><Text>Loading...</Text></View>; // Or some other loading placeholder
   }
 
-  // Replace with your actual data and assets
-  const artworkImage = require('../assets/SittingMan.png');
-  const title = "Sitting Man";
-  const description = "The sitting man is sitting this demonstrates the importance of sitting as a commentary on sitting.";
-  const price = "€2,400";
-  const btcPrice = "0.15 BTC";
+  if (!artwork) {
+    return <Text>Loading...</Text>; // Or any other loading indicator
+  }
 
   return (
     <View style={styles.flexContainer}>
@@ -47,20 +59,18 @@ const ArtDetailScreen = () => {
           <View style={styles.contentContainer}>
             {/* White rounded rectangle background */}
             <View style={styles.roundedRectangle} />
-
-            {/* Artwork and Details */}
-            <Image source={artworkImage} style={styles.artworkImage} />
-            <View style={styles.textContainer}>
-              <Text style={styles.title}>{title}</Text>
-              <Text style={styles.description}>{description}</Text>
+              {/* Artwork and Details */}
+              <Image source={require('../assets/SittingMan.png')} style={styles.artworkImage} />  {/* Update when using a real remote API to retrieve the data<Image source={{ uri: artwork.artworkImage }} style={styles.artworkImage} />*/}
+              <View style={styles.textContainer}>
+                <Text style={styles.title}>{artwork.title}</Text>
+                <Text style={styles.description}>{artwork.description}</Text>
+                {/* Buy Button */}
+                <TouchableOpacity style={styles.buyButton}>
+                  <Text style={styles.buyButtonText}>{artwork.price}</Text>
+                  <Text style={styles.btcPrice}>{artwork.btcPrice}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-
-            {/* Buy Button */}
-            <TouchableOpacity style={styles.buyButton}>
-              <Text style={styles.buyButtonText}>{price}</Text>
-              <Text style={styles.btcPrice}>{btcPrice}</Text>
-            </TouchableOpacity>
-          </View>
         </ImageBackground>
       </SafeAreaView>
     </View>
@@ -75,16 +85,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   backgroundImage: {
-    flex: 1,
+    //flex: 1,
+    height: '100%',
     resizeMode: 'cover',
   },
   header: {
     // Adjusted header styles to allow "Art" text to overlap with the white rectangle
-    height: 70,
+    height: 50,
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
-    paddingTop: 140,
-    paddingBottom: 0, // pushes the content to the bottom of the header
+    paddingTop: 120,
+    paddingBottom: 1, // pushes the content to the bottom of the header
     paddingLeft: 30, // pushes the content to the right
     backgroundColor: 'transparent',
     zIndex: 1, // Ensure the header is above the white rectangle
@@ -95,10 +106,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   contentContainer: {
-    flex: 1,
+   // flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start', // Align content to the top
-    paddingTop: windowHeight * 0.03, // Add padding to the top
+    justifyContent: 'center', // Align content to the top
+    paddingTop: windowHeight * 0.01, // Add padding to the top
   },
   roundedRectangle: {
     position: 'absolute',
@@ -110,16 +121,20 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     zIndex: 0, // Lower zIndex than the header
   },
-
   artworkImage: {
+    justifyContent: 'flex-start', // Align content to the top
     width: windowWidth * 0.7, // 80% of the screen width
     height: windowHeight * 0.52, // 30% of the screen height
+   // height: null, // Remove the fixed height
+   // flex: 1, // Allow the image to take up available space
     resizeMode: 'contain',
-    marginBottom: 15, // Add space between the image and the text
+    marginBottom: 10, // Reduced or set to 0 to reduce gap
   },
   textContainer: {
+    //top: -400,
     alignItems: 'center', // Center text horizontally
-    marginBottom: 20, // Space before the buy button
+    justifyContent: 'flex-start', // Align content to the top
+    marginBottom: 30,
     marginLeft: 60, // Left margin
     marginRight: 60, // Right margin
   },
@@ -133,6 +148,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'grey',
     textAlign: 'center',
+    marginBottom: 30, // Space before the buy button
   },
   buyButton: {
     backgroundColor: 'blue',
