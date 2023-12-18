@@ -1,6 +1,7 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import BottomMenu from '../components/BottomMenu'; // Import the BottomMenu component
 
 const HomeScreen = () => {
   return (
@@ -11,6 +12,7 @@ const HomeScreen = () => {
       >
         {/* Other UI components can go here */}
       </ImageBackground>
+        <BottomMenu /> 
     </SafeAreaView>
   );
 };
