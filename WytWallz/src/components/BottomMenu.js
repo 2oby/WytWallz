@@ -13,11 +13,11 @@ const BottomMenu = () => {
         <Text style={styles.menuText}>Scan</Text>
       </TouchableOpacity>
 
-
-      <TouchableOpacity style={styles.menuButton}>
+      <TouchableOpacity style={styles.menuButton} onPress={() => navigation.navigate('Home')}>
         <Text style={styles.menuText}>Map</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.menuButton}>
+
+      <TouchableOpacity style={styles.menuButton} onPress={() => navigation.navigate('ArtDetail')}>
         <Text style={styles.menuText}>More</Text>
       </TouchableOpacity>
     </View>
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   menuText: {
-    fontSize: 30,
+    fontSize: 20,
   },
 });
 

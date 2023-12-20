@@ -55,13 +55,13 @@ const ArtDetailScreen = () => {
           <View style={styles.header}>
             <Image source={require('../assets/Art__HeaderText.png')} style={styles.headerTitle} />
           </View>
-
           {/* Content Area */}
           <View style={styles.contentContainer}>
             {/* White rounded rectangle background */}
-            <View style={styles.roundedRectangle} />
+            <View style={styles.roundedRectangle} />   
               {/* Artwork and Details */}
-              <Image source={require('../assets/SittingMan.png')} style={styles.artworkImage} />  {/* Update when using a real remote API to retrieve the data<Image source={{ uri: artwork.artworkImage }} style={styles.artworkImage} />*/}
+              {/* Update when using a real remote API to retrieve the data<Image source={{ uri: artwork.artworkImage }} style={styles.artworkImage} /> */}
+              <Image source={require('../assets/SittingMan.png')} style={styles.artworkImage} />   
               <View style={styles.textContainer}>
                 <Text style={styles.title}>{artwork.title}</Text>
                 <Text style={styles.description}>{artwork.description}</Text>
@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
     height: 20,
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
-    paddingTop: 70,
-    paddingBottom: 10, // pushes the content to the bottom of the header
+    paddingTop: 50,
+    paddingBottom: 0, // pushes the content to the bottom of the header
     paddingLeft: 0, // pushes the content to the right
     backgroundColor: 'transparent',
     zIndex: 1, // Ensure the header is above the white rectangle
@@ -128,27 +128,27 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.7, // 80% of the screen width
     height: windowHeight * 0.52, // 30% of the screen height
     resizeMode: 'contain',
-    marginTop: 15, 
-    marginBottom: 10, // Reduced or set to 0 to reduce gap
+    marginTop: 0, 
+    marginBottom: 0, // Reduced or set to 0 to reduce gap
   },
   textContainer: {
     alignItems: 'center', // Center text horizontally
     justifyContent: 'flex-start', // Align content to the top
-    marginBottom: 30,
+    marginBottom: 10,
     marginLeft: 60, // Left margin
     marginRight: 60, // Right margin
   },
   title: {
-    fontSize: 32,
+    fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 10, // Space before the description
+    marginBottom: 5, // Space before the description
     fontFamily: 'K2D-ExtraBoldItalic',
   },
   description: {
-    fontSize: 20,
+    fontSize: 15,
     color: 'grey',
     textAlign: 'center',
-    marginBottom: 30, // Space before the buy button
+    marginBottom: 10, // Space before the buy button
   },
   buyButton: {
     backgroundColor: 'blue',
@@ -168,5 +168,4 @@ const styles = StyleSheet.create({
 });
 
 export default ArtDetailScreen;
-
 
