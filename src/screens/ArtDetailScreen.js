@@ -4,14 +4,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Font from 'expo-font';
 import { fetchArtworkData } from '../services/api';
 import BottomMenu from '../components/BottomMenu'; // Import the BottomMenu component
+import { useRoute } from '@react-navigation/native';
 
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+
 const ArtDetailScreen = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [artwork, setArtwork] = useState(null);
+  const route = useRoute(); // useRoute must be inside the component
+  const artworkKey = route.params?.artworkKey; // Get the passed artworkKey parameter
+
 
   useEffect(() => {
     async function loadFonts() {
@@ -25,8 +30,7 @@ const ArtDetailScreen = () => {
   }, []);
 
   useEffect(() => {
-    const artworkKey = 'SP3FBR2AGK5H9QDNAHM7FF9K6E2B7DTE5ACFA7FWY.12345'; //Format: Smart-Contract-Address.Token-ID
-    
+   // const artworkKey = 'SP3FBR2AGK5H9QDNAHM7FF9K6E2B7DTE5ACFA7FWY.12345'; //Format: Smart-Contract-Address.Token-ID SP3FBR2AGK5H9QDNAHM7FF9K6E2B7DTE5ACFA7FWY.23456 / SP3FBR2AGK5H9QDNAHM7FF9K6E2B7DTE5ACFA7FWY.12345
     fetchArtworkData(artworkKey)
       .then(data => {
         setArtwork(data);
@@ -35,7 +39,7 @@ const ArtDetailScreen = () => {
         console.error('Error fetching artwork:', error);
         // Handle the error appropriately
       });
-  }, []);
+  }, [artworkKey]);
 
   if (!fontsLoaded) {
     return <View><Text>Loading...</Text></View>; // Or some other loading placeholder
@@ -61,7 +65,7 @@ const ArtDetailScreen = () => {
             <View style={styles.roundedRectangle} />   
               {/* Artwork and Details */}
               {/* Update when using a real remote API to retrieve the data<Image source={{ uri: artwork.artworkImage }} style={styles.artworkImage} /> */}
-              <Image source={require('../assets/SittingMan.png')} style={styles.artworkImage} />   
+              <Image source={artwork.artworkImage} style={styles.artworkImage} />   
               <View style={styles.textContainer}>
                 <Text style={styles.title}>{artwork.title}</Text>
                 <Text style={styles.description}>{artwork.description}</Text>
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
    // flex: 1,
     alignItems: 'center',
     justifyContent: 'center', // Align content to the top
-    paddingTop: windowHeight * 0.01, // Add padding to the top
+    paddingTop: windowHeight * 0.000, // Add padding to the top
   },
   roundedRectangle: {
     position: 'absolute',
@@ -124,6 +128,7 @@ const styles = StyleSheet.create({
     zIndex: 0, // Lower zIndex than the header
   },
   artworkImage: {
+    top: -15, 
     justifyContent: 'flex-start', // Align content to the top
     width: windowWidth * 0.7, // 80% of the screen width
     height: windowHeight * 0.52, // 30% of the screen height
@@ -139,18 +144,21 @@ const styles = StyleSheet.create({
     marginRight: 60, // Right margin
   },
   title: {
+    top: -15, 
     fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 5, // Space before the description
     fontFamily: 'K2D-ExtraBoldItalic',
   },
   description: {
+    top: -15, 
     fontSize: 15,
     color: 'grey',
     textAlign: 'center',
     marginBottom: 10, // Space before the buy button
   },
   buyButton: {
+    top: -15, 
     backgroundColor: 'blue',
     padding: 15,
     borderRadius: 20,
