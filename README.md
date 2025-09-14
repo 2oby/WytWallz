@@ -1,3 +1,5 @@
+![WytWallz Banner](assets/images/wytwallz-banner.png)
+
 # 🎨 WytWallz
 
 > Transform vacant walls into canvases - Where artists meet empty spaces
